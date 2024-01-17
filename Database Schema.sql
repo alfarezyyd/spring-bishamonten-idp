@@ -1,0 +1,3 @@
+DROP DATABASE spring_bishamonten_idp;
+CREATE DATABASE spring_bishamonten_idp;
+USE spring_bishamonten_idp;
