@@ -38,9 +38,9 @@ public class Client {
       inverseJoinColumns = @JoinColumn(name = "grant_type_id", referencedColumnName = "id"))
   private LinkedList<GrantType> authorizationGrantTypes;
   @OneToMany(mappedBy = "client")
-  private LinkedList<RedirectUris> redirectUris;
+  private LinkedList<RedirectUri> redirectUris;
   @OneToMany(mappedBy = "client")
-  private LinkedList<PostLogoutRedirectUris> postLogoutRedirectUris;
+  private LinkedList<PostLogoutRedirectUri> postLogoutRedirectUris;
   @ManyToMany
   @JoinTable(name = "clients_scopes",
       joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),

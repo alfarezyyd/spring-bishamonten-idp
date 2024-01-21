@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class RedirectUris {
+public class RedirectUri {
   @Id
   private Short id;
   private String name;

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class PostLogoutRedirectUris {
+public class PostLogoutRedirectUri {
   @Id
   private Short id;
   private String name;
