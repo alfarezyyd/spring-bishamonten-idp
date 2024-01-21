@@ -2,6 +2,7 @@ package alfarezyyd.bishamonten.mapper;
 
 import alfarezyyd.bishamonten.entity.TokenSetting;
 import org.mapstruct.Mapper;
+import org.mapstruct.Named;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
@@ -10,6 +11,7 @@ import java.time.Duration;
 
 @Mapper(componentModel = "spring")
 public interface TokenSettingMapper {
+  @Named("clientTokenSettings")
   default TokenSettings tokenSettingEntityIntoTokenSettings(TokenSetting tokenSettingEntity) {
     return TokenSettings.builder()
         .accessTokenFormat(new OAuth2TokenFormat(tokenSettingEntity.getAccessTokenFormat()))
@@ -22,6 +24,7 @@ public interface TokenSettingMapper {
         .build();
   }
 
+  @Named("entityTokenSetting")
   default TokenSetting tokenSettingsIntoTokenSettingEntity(TokenSettings tokenSettings) {
     TokenSetting tokenSetting = new TokenSetting();
     tokenSetting.setAccessTokenFormat(tokenSettings.getAccessTokenFormat().getValue());

@@ -3,6 +3,7 @@ package alfarezyyd.bishamonten.repository;
 import alfarezyyd.bishamonten.entity.Client;
 import alfarezyyd.bishamonten.mapper.ClientMapper;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -10,23 +11,38 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class CustomRegisteredClientRepository implements RegisteredClientRepository {
-  @PersistenceContext
-  private EntityManager entityManager;
-  private ClientMapper clientMapper;
+  private final EntityManager entityManager;
+  private final ClientMapper clientMapper;
+
+  public CustomRegisteredClientRepository(EntityManager entityManager, ClientMapper clientMapper) {
+    this.entityManager = entityManager;
+    this.clientMapper = clientMapper;
+  }
 
   @Override
   public void save(RegisteredClient registeredClient) {
+    EntityTransaction entityTransaction = entityManager.getTransaction();
+    try {
+      entityTransaction.begin();
+      Client newClient = new Client();
+      clientMapper.registeredClientIntoClient(newClient, registeredClient);
+      entityManager.persist(clientMapper);
+      entityTransaction.commit();
+    }catch (Exception e){
+      entityTransaction.rollback();
+    }
 
   }
 
   @Override
   public RegisteredClient findById(String id) {
     Client foundClient = entityManager.find(Client.class, Long.valueOf(id));
-    return RegisteredClient.withId("1").build();
+    return clientMapper.clientIntoRegisteredClient(foundClient);
   }
 
   @Override
   public RegisteredClient findByClientId(String clientId) {
-    return null;
+    Client foundClient = entityManager.find(Client.class, clientId);
+    return clientMapper.clientIntoRegisteredClient(foundClient);
   }
 }
