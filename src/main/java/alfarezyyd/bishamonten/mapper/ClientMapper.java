@@ -1,5 +1,6 @@
 package alfarezyyd.bishamonten.mapper;
 
+import alfarezyyd.bishamonten.dto.client.ClientDto;
 import alfarezyyd.bishamonten.entity.Client;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,7 +31,7 @@ public interface ClientMapper {
   @Mapping(target = "scopes", qualifiedByName = "entityScope")
   @Mapping(target = "clientSettings", qualifiedByName = "entityClientSetting")
   @Mapping(target = "tokenSettings", qualifiedByName = "entityTokenSetting")
-  Client registeredClientIntoClient(@MappingTarget Client clientEntity, RegisteredClient registeredClient);
+  void registeredClientIntoClient(@MappingTarget Client clientEntity, RegisteredClient registeredClient);
 
   default RegisteredClient clientIntoRegisteredClient(Client clientEntity) {
     return RegisteredClient
@@ -41,14 +42,29 @@ public interface ClientMapper {
         .clientSecretExpiresAt(clientEntity.getClientSecretExpiresAt().toInstant())
         .clientName(clientEntity.getClientName())
         .clientAuthenticationMethods(clientAuthenticationMethods -> AUTHENTICATION_METHOD_MAPPER.authMethodEntityIntoClientAuthMethod(clientEntity.getClientAuthenticationMethods()))
-        .authorizationGrantTypes(authorizationGrantTypes ->  GRANT_TYPE_MAPPER.grantTypeEntityIntoAuthGrantType(clientEntity.getAuthorizationGrantTypes()))
-        .redirectUris(redirectUris ->  REDIRECT_URI_MAPPER.redirectUriEntityIntoClientRedirectUri(clientEntity.getRedirectUris()))
-        .postLogoutRedirectUris(postLogoutRedirectUris ->  POST_LOGOUT_REDIRECT_URI_MAPPER.postLogoutRedirectUriEntityIntoClientRedirectUri(clientEntity.getPostLogoutRedirectUris()))
-        .scopes(scopes ->  SCOPE_MAPPER.scopeEntityIntoClientScope(clientEntity.getScopes()))
+        .authorizationGrantTypes(authorizationGrantTypes -> GRANT_TYPE_MAPPER.grantTypeEntityIntoAuthGrantType(clientEntity.getAuthorizationGrantTypes()))
+        .redirectUris(redirectUris -> REDIRECT_URI_MAPPER.redirectUriEntityIntoClientRedirectUri(clientEntity.getRedirectUris()))
+        .postLogoutRedirectUris(postLogoutRedirectUris -> POST_LOGOUT_REDIRECT_URI_MAPPER.postLogoutRedirectUriEntityIntoClientRedirectUri(clientEntity.getPostLogoutRedirectUris()))
+        .scopes(scopes -> SCOPE_MAPPER.scopeEntityIntoClientScope(clientEntity.getScopes()))
         .clientSettings(CLIENT_SETTING_MAPPER.clientSettingEntityIntoClientSettings(clientEntity.getClientSettings()))
         .tokenSettings(TOKEN_SETTING_MAPPER.tokenSettingEntityIntoTokenSettings(clientEntity.getTokenSettings()))
         .build();
+  }
 
+  default RegisteredClient clientDtoIntoRegisteredClient(ClientDto clientDto) {
+    return RegisteredClient
+        .withId(String.valueOf(clientDto.getId()))
+        .clientId(clientDto.getClientId())
+        .clientSecret(clientDto.getClientSecret())
+        .clientName(clientDto.getClientName())
+        .clientAuthenticationMethods(clientAuthenticationMethods -> AUTHENTICATION_METHOD_MAPPER.authMethodStringIntoClientAuthMethod(clientDto.getClientAuthenticationMethods()))
+        .authorizationGrantTypes(authorizationGrantTypes -> GRANT_TYPE_MAPPER.grantTypeStringIntoAuthGrantType(clientDto.getAuthorizationGrantTypes()))
+        .redirectUris(redirectUris -> REDIRECT_URI_MAPPER.redirectUriStringIntoClientRedirectUri(clientDto.getRedirectUris()))
+        .postLogoutRedirectUris(postLogoutRedirectUris -> POST_LOGOUT_REDIRECT_URI_MAPPER.postLogoutRedirectUriStringIntoClientRedirectUri(clientDto.getPostLogoutRedirectUris()))
+        .scopes(scopes -> SCOPE_MAPPER.scopeStringIntoClientScope(clientDto.getScopes()))
+        .clientSettings(CLIENT_SETTING_MAPPER.clientDtoIntoClientSettings(clientDto.getClientSetting()))
+        .tokenSettings(TOKEN_SETTING_MAPPER.tokenSettingDtoIntoTokenSettings(clientDto.getTokenSetting()))
+        .build();
   }
 
 

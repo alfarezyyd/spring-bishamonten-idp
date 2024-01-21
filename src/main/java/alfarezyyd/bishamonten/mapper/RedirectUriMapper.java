@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Mapper
@@ -28,5 +29,10 @@ public interface RedirectUriMapper {
       redirectUris.add(redirectUri);
     }
     return redirectUris;
+  }
+
+  @Named("clientRedirectUriString")
+  default Set<String> redirectUriStringIntoClientRedirectUri(List<String> redirectUrisString) {
+    return new HashSet<>(redirectUrisString);
   }
 }

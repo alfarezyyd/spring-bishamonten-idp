@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Mapper
@@ -27,6 +28,15 @@ public interface GrantTypeMapper {
     Set<AuthorizationGrantType> authorizationGrantTypes = new HashSet<>();
     for (GrantType grantType : grantTypes) {
       authorizationGrantTypes.add(new AuthorizationGrantType(grantType.getName()));
+    }
+    return authorizationGrantTypes;
+  }
+
+  @Named("clientGrantTypeString")
+  default Set<AuthorizationGrantType> grantTypeStringIntoAuthGrantType(List<String> grantTypes) {
+    Set<AuthorizationGrantType> authorizationGrantTypes = new HashSet<>();
+    for (String grantType : grantTypes) {
+      authorizationGrantTypes.add(new AuthorizationGrantType(grantType));
     }
     return authorizationGrantTypes;
   }

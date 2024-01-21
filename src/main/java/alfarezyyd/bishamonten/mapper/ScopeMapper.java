@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Mapper
@@ -28,6 +29,11 @@ public interface ScopeMapper {
       scopes.add(scope);
     }
     return scopes;
+  }
+
+  @Named("clientScopeString")
+  default Set<String> scopeStringIntoClientScope(List<String> scopeStrings) {
+    return new HashSet<>(scopeStrings);
   }
 }
 

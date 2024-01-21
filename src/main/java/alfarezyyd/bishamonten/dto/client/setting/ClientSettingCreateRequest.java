@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClientSettingCreateRequest {
+public class ClientSettingCreateRequest implements ClientSettingDto{
   @JsonProperty("require_proof_key")
   private Boolean requireProofKey;
   @JsonProperty("require_authorization_consent")

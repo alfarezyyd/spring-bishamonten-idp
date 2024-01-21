@@ -4,7 +4,6 @@ import alfarezyyd.bishamonten.entity.Client;
 import alfarezyyd.bishamonten.mapper.ClientMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Repository;

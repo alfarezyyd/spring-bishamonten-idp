@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Mapper
@@ -30,5 +31,14 @@ public interface AuthenticationMethodMapper {
       authenticationMethods.add(authenticationMethod);
     }
     return authenticationMethods;
+  }
+
+  @Named("clientAuthMethodString")
+  default Set<ClientAuthenticationMethod> authMethodStringIntoClientAuthMethod(List<String> authenticationMethods) {
+    Set<ClientAuthenticationMethod> clientAuthenticationMethods = new HashSet<>();
+    for (String authenticationMethod : authenticationMethods) {
+      clientAuthenticationMethods.add(new ClientAuthenticationMethod(authenticationMethod));
+    }
+    return clientAuthenticationMethods;
   }
 }

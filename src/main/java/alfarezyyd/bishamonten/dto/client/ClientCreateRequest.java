@@ -2,6 +2,7 @@ package alfarezyyd.bishamonten.dto.client;
 
 import alfarezyyd.bishamonten.dto.client.setting.ClientSettingCreateRequest;
 import alfarezyyd.bishamonten.dto.token.setting.TokenSettingCreateRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,9 @@ import java.util.LinkedList;
 
 @Getter
 @Setter
-public class ClientCreateRequest {
+public class ClientCreateRequest implements ClientDto{
+  @JsonIgnore
+  private Long id;
   @JsonProperty("client_id")
   private String clientId;
   @JsonProperty("client_secret")

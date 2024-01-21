@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TokenSettingCreateRequest {
+public class TokenSettingCreateRequest implements TokenSettingDto {
   @JsonProperty("authorization_code_ttl")
   private Short authorizationCodeTtl;
   @JsonProperty("access_token_ttl")

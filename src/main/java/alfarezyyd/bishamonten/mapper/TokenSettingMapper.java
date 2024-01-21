@@ -1,5 +1,6 @@
 package alfarezyyd.bishamonten.mapper;
 
+import alfarezyyd.bishamonten.dto.token.setting.TokenSettingDto;
 import alfarezyyd.bishamonten.entity.TokenSetting;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
@@ -35,5 +36,18 @@ public interface TokenSettingMapper {
     tokenSetting.setRefreshTokenTtl(((short) tokenSettings.getRefreshTokenTimeToLive().toHours()));
     tokenSetting.setIdTokenSignatureAlgorithm(tokenSettings.getIdTokenSignatureAlgorithm().getName());
     return tokenSetting;
+  }
+
+  @Named("clientTokenSettingsDto")
+  default TokenSettings tokenSettingDtoIntoTokenSettings(TokenSettingDto tokenSettingDto) {
+    return TokenSettings.builder()
+        .accessTokenFormat(new OAuth2TokenFormat(tokenSettingDto.getAccessTokenFormat()))
+        .accessTokenTimeToLive(Duration.ofHours(tokenSettingDto.getAccessTokenTtl()))
+        .authorizationCodeTimeToLive(Duration.ofHours(tokenSettingDto.getAuthorizationCodeTtl()))
+        .deviceCodeTimeToLive(Duration.ofHours(tokenSettingDto.getDeviceCodeTtl()))
+        .reuseRefreshTokens(tokenSettingDto.getReuseRefreshToken())
+        .refreshTokenTimeToLive(Duration.ofHours(tokenSettingDto.getRefreshTokenTtl()))
+        .idTokenSignatureAlgorithm(SignatureAlgorithm.from(tokenSettingDto.getIdTokenSignatureAlgorithm()))
+        .build();
   }
 }

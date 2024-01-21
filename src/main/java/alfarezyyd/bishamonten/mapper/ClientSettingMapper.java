@@ -1,5 +1,6 @@
 package alfarezyyd.bishamonten.mapper;
 
+import alfarezyyd.bishamonten.dto.client.setting.ClientSettingDto;
 import alfarezyyd.bishamonten.entity.ClientSetting;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
@@ -29,5 +30,17 @@ public interface ClientSettingMapper {
     clientSetting.setRequireAuthorizationConsent(clientSettings.isRequireAuthorizationConsent());
     clientSetting.setTokenEndpointAuthenticationSigningAlgorithm(clientSettings.getTokenEndpointAuthenticationSigningAlgorithm().getName());
     return clientSetting;
+  }
+
+  @Named("clientSettingsDto")
+  default ClientSettings clientDtoIntoClientSettings(ClientSettingDto clientSettingDto) {
+    MacAlgorithm macAlgorithm = MacAlgorithm.from(clientSettingDto.getTokenEndpointAuthenticationSigningAlgorithm());
+    SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.from(clientSettingDto.getTokenEndpointAuthenticationSigningAlgorithm());
+    return ClientSettings.builder()
+        .requireAuthorizationConsent(clientSettingDto.getRequireAuthorizationConsent())
+        .requireProofKey(clientSettingDto.getRequireProofKey())
+        .jwkSetUrl(clientSettingDto.getJwkSetUrl())
+        .tokenEndpointAuthenticationSigningAlgorithm(macAlgorithm == null ? signatureAlgorithm : macAlgorithm)
+        .build();
   }
 }

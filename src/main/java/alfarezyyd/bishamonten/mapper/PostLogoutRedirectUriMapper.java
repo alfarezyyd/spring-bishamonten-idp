@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Mapper
@@ -29,5 +30,10 @@ public interface PostLogoutRedirectUriMapper {
       postLogoutRedirectUris.add(postLogoutRedirectUri);
     }
     return postLogoutRedirectUris;
+  }
+
+  @Named("clientPostLogoutRedirectUriString")
+  default Set<String> postLogoutRedirectUriStringIntoClientRedirectUri(List<String> postLogoutRedirectUrisString) {
+    return new HashSet<>(postLogoutRedirectUrisString);
   }
 }
