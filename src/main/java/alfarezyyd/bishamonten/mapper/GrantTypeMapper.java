@@ -24,7 +24,7 @@ public interface GrantTypeMapper {
   }
 
   @Named("clientGrantType")
-  default Set<AuthorizationGrantType> grantTypeEntityIntoAuthGrantType(LinkedList<GrantType> grantTypes) {
+  default Set<AuthorizationGrantType> grantTypeEntityIntoAuthGrantType(List<GrantType> grantTypes) {
     Set<AuthorizationGrantType> authorizationGrantTypes = new HashSet<>();
     for (GrantType grantType : grantTypes) {
       authorizationGrantTypes.add(new AuthorizationGrantType(grantType.getName()));

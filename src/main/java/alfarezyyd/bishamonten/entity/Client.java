@@ -27,27 +27,27 @@ public class Client {
   private Timestamp clientSecretExpiresAt;
   @Column(name = "client_name")
   private String clientName;
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "clients_authentication_methods",
       joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "authentication_method_id", referencedColumnName = "id"))
   private LinkedList<AuthenticationMethod> clientAuthenticationMethods;
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "clients_grant_types",
       joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "grant_type_id", referencedColumnName = "id"))
   private LinkedList<GrantType> authorizationGrantTypes;
-  @OneToMany(mappedBy = "client")
+  @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
   private LinkedList<RedirectUri> redirectUris;
-  @OneToMany(mappedBy = "client")
+  @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
   private LinkedList<PostLogoutRedirectUri> postLogoutRedirectUris;
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "clients_scopes",
       joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "scope_id", referencedColumnName = "id"))
   private LinkedList<Scope> scopes;
-  @OneToOne(mappedBy = "client")
+  @OneToOne(mappedBy = "client", fetch = FetchType.EAGER)
   private ClientSetting clientSettings;
-  @OneToOne(mappedBy = "client")
+  @OneToOne(mappedBy = "client", fetch = FetchType.EAGER)
   private TokenSetting tokenSettings;
 }

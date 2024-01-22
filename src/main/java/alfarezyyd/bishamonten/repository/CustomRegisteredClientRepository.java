@@ -4,6 +4,7 @@ import alfarezyyd.bishamonten.entity.Client;
 import alfarezyyd.bishamonten.mapper.ClientMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Repository;
@@ -41,7 +42,9 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
 
   @Override
   public RegisteredClient findByClientId(String clientId) {
-    Client foundClient = entityManager.find(Client.class, clientId);
-    return clientMapper.clientIntoRegisteredClient(foundClient);
+    TypedQuery<Client> entityManagerQuery = entityManager.createQuery("select c from clients c where c.clientId = :clientId", Client.class);
+    entityManagerQuery.setParameter("clientId", clientId);
+    Client clientSingleResult = entityManagerQuery.getSingleResult();
+    return clientMapper.clientIntoRegisteredClient(clientSingleResult);
   }
 }

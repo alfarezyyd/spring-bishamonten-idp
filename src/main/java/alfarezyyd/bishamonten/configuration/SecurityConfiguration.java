@@ -40,7 +40,7 @@ public class SecurityConfiguration {
       throws Exception {
     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
     http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-        .oidc(Customizer.withDefaults());
+        .oidc(oidcConfigurer -> oidcConfigurer.clientRegistrationEndpoint(Customizer.withDefaults()));
     http
         // Redirect to the login page when not authenticated from the
         // authorization endpoint
@@ -109,4 +109,5 @@ public class SecurityConfiguration {
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
+
 }
